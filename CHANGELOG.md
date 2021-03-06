@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Added [`Dockerfile.LieutenantApi`](Dockerfile.LieutenantApi) to dockerize the Lieutenant API ([#132])
+
 ## [v0.4.1] - 2021-02-22
 ### Added
 - Ability to set the ID when creating Clusters and Tenants ([#123])

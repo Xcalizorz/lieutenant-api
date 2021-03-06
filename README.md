@@ -21,17 +21,35 @@ You can preview the documentation using the `make antora` command, and then open
 The API is specified in [OpenAPI 3](https://swagger.io/docs/specification/about/) format.
 It's available in the file [openapi.yaml](openapi.yaml) in the root folder of this project.
 
-## Run API locally
+## Run API
+
+Before running the API, please define the following `env` variables:
+
+```
+export KUBECONFIG=~/.kube/myconfig
+```
+
+The `kubeconfig` must grant access to the cluster.
+
+### Run API locally
 
 To run the API on your local workstation, follow these steps:
 
 ```
-export KUBECONFIG=~/.kube/myconfig
 export NAMESPACE=syn-lieutenant
 make run
 ```
 
-The `kubeconfig` must grant access to the cluster.
+Check with `curl localhost:8080/healthz` if the API is responding.
+
+
+### Run via Docker
+
+To run the API via Docker, follow these steps:
+
+```bash
+docker run --rm -v $KUBECONFIG:$HOME/.kube/config -p 8080:8080 vshn/lieutenant-api
+```
 
 Check with `curl localhost:8080/healthz` if the API is responding.
 

@@ -1,0 +1,24 @@
+FROM alpine:3.13 as base
+ARG LIEUTENANT_API_TAG=v0.4.1
+
+
+RUN apk update \
+  && apk add -q --no-cache --purge git \
+  # Download Lieutenant API source code
+  && git clone --depth 1 --branch ${LIEUTENANT_API_TAG} https://github.com/projectsyn/lieutenant-api.git -c advice.detachedHead=false
+
+FROM golang:alpine3.13 as lieutenant-api
+ENV KUBECONFIG=~/.kube/config
+ENV NAMESPACE=syn-lieutenant
+
+COPY --from=base /lieutenant-api /tmp/lieutenant-api
+WORKDIR /tmp/lieutenant-api
+
+RUN apk update \
+  && apk add -q --no-cache --purge make bash \
+  && make generate
+
+EXPOSE 8080
+
+ENTRYPOINT ["make"]
+CMD ["run"]
